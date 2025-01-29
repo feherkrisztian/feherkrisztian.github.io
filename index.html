@@ -1,17 +1,159 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Button Alert</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ski Theme Alkalmazás</title>
+  <style>
+    /* General styles */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #a8c0ff, #3f2b96);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #fff;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      font-size: 18px;
+      color: #fff;
+      background-color: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .button:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .button:active {
+      transform: translateY(0);
+    }
+
+    /* Specific button colors */
+    #nevetni {
+      background-color: #ff6f61;
+      border-color: #ff6f61;
+    }
+
+    #motivacio {
+      background-color: #4a90e2;
+      border-color: #4a90e2;
+    }
+
+    #unatkozom {
+      background-color: #8e44ad;
+      border-color: #8e44ad;
+    }
+
+    /* Snowflakes animation */
+    .snowflakes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .snowflake {
+      position: absolute;
+      color: #fff;
+      font-size: 20px;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10%);
+      }
+      100% {
+        transform: translateY(110%);
+      }
+    }
+  </style>
 </head>
 <body>
-    <button onclick="showAlert()">Click Me</button>
+  <div class="container">
+    <h1>Válassz egy lehetőséget!</h1>
+    <button class="button" id="nevetni">Nevetni akarok</button>
+    <button class="button" id="motivacio">Motivációt akarok</button>
+    <button class="button" id="unatkozom">Unatkozom</button>
+  </div>
 
-    <script>
-        function showAlert() {
-            alert("Button clicked!");
-        }
-    </script>
+  <!-- Snowflakes animation -->
+  <div class="snowflakes">
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+  </div>
+
+  <script>
+    // Add functionality to buttons
+    document.getElementById('nevetni').addEventListener('click', () => {
+      alert('Nevess egy jót! 😄');
+    });
+
+    document.getElementById('motivacio').addEventListener('click', () => {
+      alert('Legyél kitartó, mint egy síelő a hegyen! 🏔️');
+    });
+
+    document.getElementById('unatkozom').addEventListener('click', () => {
+      alert('Menj síelni vagy építs egy hógömböt! ⛷️');
+    });
+
+    // Snowflakes animation
+    const snowflakesContainer = document.querySelector('.snowflakes');
+    const snowflakeCount = 20;
+
+    for (let i = 0; i < snowflakeCount; i++) {
+      const snowflake = document.createElement('div');
+      snowflake.classList.add('snowflake');
+      snowflake.innerHTML = '❄️';
+      snowflake.style.left = `${Math.random() * 100}%`;
+      snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`;
+      snowflake.style.animationDelay = `${Math.random() * 5}s`;
+      snowflake.style.fontSize = `${Math.random() * 20 + 10}px`;
+      snowflakesContainer.appendChild(snowflake);
+    }
+  </script>
 </body>
 </html>
