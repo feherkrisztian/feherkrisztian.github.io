@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Síelős Viccek</title>
+  <style>
+    /* General styles */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #a8c0ff, #3f2b96);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #fff;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .quiz-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .quiz-item {
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+    }
+
+    .quiz-title {
+      font-size: 18px;
+      color: #fff;
+      margin: 0;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .quiz-title:hover {
+      color: #ff6f61;
+    }
+
+    .quiz-content {
+      display: none;
+      font-size: 16px;
+      color: #fff;
+      margin-top: 10px;
+    }
+
+    .quiz-content.show {
+      display: block;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .quiz-option {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 25px;
+      padding: 10px;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .quiz-option:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .quiz-option:active {
+      transform: translateY(0);
+    }
+
+    /* Popup styles */
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      z-index: 1000;
+      display: none;
+    }
+
+    .popup.show {
+      display: block;
+    }
+
+    .popup-message {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .popup-image {
+      width: 200px; /* Fixed width */
+      height: auto; /* Height adjusts automatically */
+      border-radius: 10px; /* Optional: Add rounded corners */
+    }
+
+    .popup-button {
+      background: #ff6f61;
+      border: none;
+      border-radius: 25px;
+      padding: 8px 16px;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .popup-button:hover {
+      background: #ff4a3d;
+      transform: scale(1.05);
+    }
+
+    .popup-button:active {
+      transform: scale(0.95);
+    }
+
+    /* Snowflakes animation */
+    .snowflakes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .snowflake {
+      position: absolute;
+      color: #fff;
+      font-size: 20px;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10%);
+      }
+      100% {
+        transform: translateY(110%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Síelős Viccek</h1>
+    <ul class="quiz-list" id="quizList">
+      <!-- Quiz questions will be dynamically added here -->
+    </ul>
+  </div>
+
+  <!-- Popup for success/loser -->
+  <div class="popup" id="popup">
+    <img class="popup-image" id="popupImage" src="" alt="Result Image">
+    <div class="popup-message" id="popupMessage"></div> <!-- Add this line -->
+    <button class="popup-button" id="popupButton">OK</button>
+  </div>
+
+  <!-- Snowflakes animation -->
+  <div class="snowflakes">
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+  </div>
+
+  <script>
+    // Manually list image filenames for each folder
+    const jovalaszokImages = [
+      "IMG1.JPEG",
+      "IMG2.JPEG",
+      "IMG3.JPEG",
+      "IMG4.JPEG",
+      "IMG5.JPEG",
+      "IMG6.JPEG",
+      "IMG7.JPEG",
+    ];
+
+    const rosszvalaszokImages = [
+      "IMG1.JPEG",
+      "IMG2.JPEG",
+      "IMG3.JPEG",
+      "IMG4.JPEG",
+      "IMG5.JPEG",
+      "IMG6.JPEG",
+      "IMG7.JPEG",
+    ];
+
+    // Function to get a random image from a folder
+    function getRandomImage(folder) {
+      const images = folder === "jovalaszok" ? jovalaszokImages : rosszvalaszokImages;
+      const randomIndex = Math.floor(Math.random() * images.length);
+      return `${folder}/${images[randomIndex]}`; // Path to the image
+    }
+
+    // Function to show the popup with an image
+    function showPopup(imageSrc, message) {
+      const popup = document.getElementById('popup');
+      const popupImage = document.getElementById('popupImage');
+      const popupMessage = document.getElementById('popupMessage');
+      const popupButton = document.getElementById('popupButton');
+
+      popupImage.src = imageSrc;
+      popupMessage.textContent = message; // Set the message
+      popup.classList.add('show');
+
+      popupButton.addEventListener('click', () => {
+        popup.classList.remove('show');
+      });
+    }
+
+    // List of ski jokes with titles, questions, options, and correct answers
+    const jokes = [
+      {
+        title: "SZEX XD",
+        question: "Miért jobb a síelés mint a szex?",
+        options: ["A) Addig se vagy aszónnyal", "B)  Naponta akár 20-szor is feljuthatsz a csúcsra, és a pálya alattad mindvégig nedves és csúszós.", "C) Naponta akár 21-ször is feljuthatsz a csúcsra, és a pálya alattad mindvégig nedves és csúszós."],
+        correctAnswer: 1
+      },
+	  {
+        title: "Finn síbajnok",
+        question: "Hogy hívják a Finn síbajnokot?",
+        options: ["A) Porho Hessinnen", "B) Síkoskodó Mikko", "C) Lejtő Lassi"],
+        correctAnswer: 0
+      },
+      {
+        title: "Napszemüveg",
+        question: "Miért hordja a síelő a napszemüvegét?",
+        options: ["A) Hogy menőnek tűnjön!", "B) Hogy ne vakuljon meg a hófénytől!", "C) Mert otthon felejtette!"],
+        correctAnswer: 1
+      },
+      {
+        title: "Százlábú",
+        question: "Miért nem sízik a százlábú?",
+        options: ["A) Mert Krisztián gyűlöli és agyoncsapja.", "B) Mert egy rovar és nem tud síelni.", "C) Mert mire fölcsatolná a síléceket, kitavaszodik!"],
+        correctAnswer: 2
+      },
+	  {
+        title: "Olasz síbajnok",
+        question: "Hogy hívják az olasz síbajnokot?",
+        options: ["A) Pasta Carvone", "B) Giuseppe Lejtőni", "C) Símoné Spagetti"],
+        correctAnswer: 1
+      },
+	  {
+        title: "Sünök",
+        question: "Miért nem síelnek a sünök?",
+        options: ["A) Mert nem fér rájuk a síbakancs.", "B) Mert túl sok havat szúrnak fel.", "C) Mert nem bírják a bukósisakot."],
+        correctAnswer: 1
+      },
+	  
+    ];
+
+    // Function to display all quiz questions
+    function displayQuiz() {
+      const quizList = document.getElementById('quizList');
+      jokes.forEach((joke, index) => {
+        const quizItem = document.createElement('li');
+        quizItem.classList.add('quiz-item');
+
+        // Quiz title
+        const quizTitle = document.createElement('h3');
+        quizTitle.classList.add('quiz-title');
+        quizTitle.textContent = joke.title;
+        quizTitle.addEventListener('click', () => {
+          quizContent.classList.toggle('show');
+        });
+        quizItem.appendChild(quizTitle);
+
+        // Quiz content (hidden by default)
+        const quizContent = document.createElement('div');
+        quizContent.classList.add('quiz-content');
+
+        // Quiz question
+        const quizQuestion = document.createElement('p');
+        quizQuestion.classList.add('quiz-question');
+        quizQuestion.textContent = joke.question;
+        quizContent.appendChild(quizQuestion);
+
+        // Quiz options
+        const quizOptions = document.createElement('div');
+        quizOptions.classList.add('quiz-options');
+        joke.options.forEach((option, optionIndex) => {
+          const quizOption = document.createElement('div');
+          quizOption.classList.add('quiz-option');
+          quizOption.textContent = option;
+          quizOption.addEventListener('click', () => checkAnswer(index, optionIndex));
+          quizOptions.appendChild(quizOption);
+        });
+        quizContent.appendChild(quizOptions);
+
+        quizItem.appendChild(quizContent);
+        quizList.appendChild(quizItem);
+      });
+    }
+
+    // Function to check the answer
+    function checkAnswer(questionIndex, selectedOptionIndex) {
+      const joke = jokes[questionIndex];
+      if (selectedOptionIndex === joke.correctAnswer) {
+        showPopup(getRandomImage("jovalaszok"), "Helyes válasz!");
+      } else {
+        showPopup(getRandomImage("rosszvalaszok"), "Sajnos nem talált!");
+      }
+    }
+
+    // Display quiz when the page loads
+    displayQuiz();
+
+    // Snowflakes animation
+    const snowflakesContainer = document.querySelector('.snowflakes');
+    const snowflakeCount = 20;
+
+    for (let i = 0; i < snowflakeCount; i++) {
+      const snowflake = document.createElement('div');
+      snowflake.classList.add('snowflake');
+      snowflake.innerHTML = '❄️';
+      snowflake.style.left = `${Math.random() * 100}%`;
+      snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`;
+      snowflake.style.animationDelay = `${Math.random() * 5}s`;
+      snowflake.style.fontSize = `${Math.random() * 20 + 10}px`;
+      snowflakesContainer.appendChild(snowflake);
+    }
+  </script>
+</body>
+</html>

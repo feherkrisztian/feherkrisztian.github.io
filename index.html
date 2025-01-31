@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ski Theme Alkalmazás</title>
+  <title>Vicces Oldal</title>
   <style>
     /* General styles */
     body {
@@ -12,10 +12,10 @@
       font-family: 'Arial', sans-serif;
       background: linear-gradient(135deg, #a8c0ff, #3f2b96);
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
     .container {
@@ -27,6 +27,7 @@
       border-radius: 20px;
       backdrop-filter: blur(10px);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      margin: 20px 0;
     }
 
     h1 {
@@ -34,6 +35,12 @@
       color: #fff;
       margin-bottom: 20px;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .welcome-text {
+      font-size: 18px;
+      color: #fff;
+      margin-bottom: 20px;
     }
 
     .button {
@@ -47,7 +54,8 @@
       border: 2px solid rgba(255, 255, 255, 0.3);
       border-radius: 25px;
       cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      text-decoration: none;
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
@@ -58,22 +66,6 @@
 
     .button:active {
       transform: translateY(0);
-    }
-
-    /* Specific button colors */
-    #nevetni {
-      background-color: #ff6f61;
-      border-color: #ff6f61;
-    }
-
-    #motivacio {
-      background-color: #4a90e2;
-      border-color: #4a90e2;
-    }
-
-    #unatkozom {
-      background-color: #8e44ad;
-      border-color: #8e44ad;
     }
 
     /* Snowflakes animation */
@@ -106,10 +98,15 @@
 </head>
 <body>
   <div class="container">
-    <h1>Válassz egy lehetőséget!</h1>
-    <button class="button" id="nevetni">Nevetni akarok</button>
-    <button class="button" id="motivacio">Motivációt akarok</button>
-    <button class="button" id="unatkozom">Unatkozom</button>
+    <h1>Szia, jó szórakozást</h1>
+    <p class="welcome-text">
+      Remélem kiégsz XD
+    </p>
+  </div>
+
+  <div class="container">
+    <a href="sielos_viccek.html" class="button">Síelős viccek quiz</a>
+    <a href="rendes_viccek.html" class="button">Rendes viccek mert már unom a hülye síelős vicceket</a>
   </div>
 
   <!-- Snowflakes animation -->
@@ -127,19 +124,6 @@
   </div>
 
   <script>
-    // Add functionality to buttons
-    document.getElementById('nevetni').addEventListener('click', () => {
-      alert('Nevess egy jót! 😄');
-    });
-
-    document.getElementById('motivacio').addEventListener('click', () => {
-      alert('Legyél kitartó, mint egy síelő a hegyen! 🏔️');
-    });
-
-    document.getElementById('unatkozom').addEventListener('click', () => {
-      alert('Menj síelni vagy építs egy hógömböt! ⛷️');
-    });
-
     // Snowflakes animation
     const snowflakesContainer = document.querySelector('.snowflakes');
     const snowflakeCount = 20;

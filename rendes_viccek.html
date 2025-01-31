@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rendes Viccek</title>
+  <style>
+    /* General styles */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #a8c0ff, #3f2b96);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #fff;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .joke-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .joke-item {
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+    }
+
+    .joke-title {
+      font-size: 18px;
+      color: #fff;
+      margin: 0;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .joke-title:hover {
+      color: #ff6f61;
+    }
+
+    .joke-content {
+      display: none;
+      font-size: 16px;
+      color: #fff;
+      margin-top: 10px;
+    }
+
+    .joke-content.show {
+      display: block;
+    }
+
+    .joke-buttons {
+      display: none; /* Hidden by default */
+      justify-content: space-around;
+      margin-top: 10px;
+    }
+
+    .joke-buttons.show {
+      display: flex; /* Show buttons when joke content is revealed */
+    }
+
+    .joke-button {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 25px;
+      padding: 8px 16px;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .joke-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .joke-button:active {
+      transform: translateY(0);
+    }
+
+    /* Popup styles */
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      z-index: 1000;
+      display: none;
+    }
+
+    .popup.show {
+      display: block;
+    }
+
+    .popup-message {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .popup-image {
+      width: 200px; /* Fixed width */
+      height: auto; /* Height adjusts automatically */
+      border-radius: 10px; /* Optional: Add rounded corners */
+    }
+
+    .popup-button {
+      background: #ff6f61;
+      border: none;
+      border-radius: 25px;
+      padding: 8px 16px;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .popup-button:hover {
+      background: #ff4a3d;
+      transform: scale(1.05);
+    }
+
+    .popup-button:active {
+      transform: scale(0.95);
+    }
+
+    /* Snowflakes animation */
+    .snowflakes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .snowflake {
+      position: absolute;
+      color: #fff;
+      font-size: 20px;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10%);
+      }
+      100% {
+        transform: translateY(110%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Igazából nagyrészt ezek is síelősek XD</h1>
+    <ul class="joke-list" id="jokeList">
+      <!-- Jokes will be dynamically added here -->
+    </ul>
+  </div>
+
+  <!-- Popup for images -->
+  <div class="popup" id="popup">
+    <img class="popup-image" id="popupImage" src="" alt="Result Image">
+    <button class="popup-button" id="popupButton">OK</button>
+  </div>
+
+  <!-- Snowflakes animation -->
+  <div class="snowflakes">
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+  </div>
+
+  <script>
+    // Manually list image filenames for each folder
+    const jovalaszokImages = [
+      "IMG1.JPEG",
+      "IMG2.JPEG",
+      "IMG3.JPEG",
+      "IMG4.JPEG",
+      "IMG5.JPEG",
+      "IMG6.JPEG",
+      "IMG7.JPEG",
+    ];
+
+    const rosszvalaszokImages = [
+      "IMG1.JPEG",
+      "IMG2.JPEG",
+      "IMG3.JPEG",
+      "IMG4.JPEG",
+      "IMG5.JPEG",
+      "IMG6.JPEG",
+      "IMG7.JPEG",
+    ];
+
+    // Function to get a random image from a folder
+    function getRandomImage(folder) {
+      const images = folder === "jovalaszok" ? jovalaszokImages : rosszvalaszokImages;
+      const randomIndex = Math.floor(Math.random() * images.length);
+      return `${folder}/${images[randomIndex]}`; // Path to the image
+    }
+
+    // Function to show the popup with an image
+    function showPopup(imageSrc) {
+      const popup = document.getElementById('popup');
+      const popupImage = document.getElementById('popupImage');
+      const popupButton = document.getElementById('popupButton');
+
+      popupImage.src = imageSrc;
+      popup.classList.add('show');
+
+      popupButton.addEventListener('click', () => {
+        popup.classList.remove('show');
+      });
+    }
+
+    // List of basic jokes
+    const jokes = [
+      {
+        title: "Feleség",
+        content: "Utazási irodában: - A feleségem a hegyekbe akar utazni, síelni. Van valami rendes helyük? - Természetesen. Elsősorban Svájcot ajánlhatom. - Lavina van?"
+      },
+      {
+        title: "Tanfolyam",
+        content: "- Tanfolyamunk három részből áll - mondja a síoktató a kezdő csoportnak. - Először megtanuljuk a sílécek felcsatolását, a felszerelés használatát. Másodszor megtanuljuk a lesiklás technikáját. Végül megtanuljuk, hogyan kell mankóval járni."
+      },
+      {
+        title: "Miért nem lehet a számítógépet fürdetni?",
+        content: "- Miért nem lehet a számítógépet fürdetni? - Mert elveszítené a memóriáját! 💻🧼"
+      },
+      {
+        title: "Különleges síelés",
+        content: "Egy síelő úgy döntött, hogy a világ egyik különleges hegyén akar síelni. Végül a Fijit választotta. Elköszönt a feleségétől, és elutazott Japánba. Végre eljött a nagy nap. Megmászta a hegyet, majd lesíelt rajta. Annyira elégedett volt a teljesítményével, hogy elhatározta, küld egy képeslapot a feleségének a hegyről, amit meghódított. A boltban vett egy félmeztelen gésát ábrázoló képeslapot is a barátjának. Megírta a lapokat, de a címzéskor véletlenül felcserélte őket. A hegyet ábrázoló képeslapra (amit véletlenül a barátjának küldött) a következőt írta: Üdvözletemet küldöm Japánból! A másik képeslapra (amelyet a feleségének címzett, és a hátoldalán egy félmeztelen gésa volt látható) a következő üzenet került: Íme a pálya képe, amin tegnap végigmentem! "
+      },
+    ];
+
+    // Function to display all jokes
+    function displayJokes() {
+      const jokeList = document.getElementById('jokeList');
+      jokes.forEach((joke) => {
+        const jokeItem = document.createElement('li');
+        jokeItem.classList.add('joke-item');
+
+        // Joke title
+        const jokeTitle = document.createElement('h3');
+        jokeTitle.classList.add('joke-title');
+        jokeTitle.textContent = joke.title;
+        jokeItem.appendChild(jokeTitle);
+
+        // Joke content (hidden by default)
+        const jokeContent = document.createElement('div');
+        jokeContent.classList.add('joke-content');
+        jokeContent.textContent = joke.content;
+        jokeItem.appendChild(jokeContent);
+
+        // Buttons for feedback (hidden by default)
+        const jokeButtons = document.createElement('div');
+        jokeButtons.classList.add('joke-buttons');
+
+        const likeButton = document.createElement('button');
+        likeButton.classList.add('joke-button');
+        likeButton.textContent = "Tetszett";
+        likeButton.addEventListener('click', () => {
+          showPopup(getRandomImage("jovalaszok"));
+        });
+
+        const dislikeButton = document.createElement('button');
+        dislikeButton.classList.add('joke-button');
+        dislikeButton.textContent = "Nem tetszett";
+        dislikeButton.addEventListener('click', () => {
+          showPopup(getRandomImage("rosszvalaszok"));
+        });
+
+        jokeButtons.appendChild(likeButton);
+        jokeButtons.appendChild(dislikeButton);
+        jokeItem.appendChild(jokeButtons);
+
+        // Toggle joke content and buttons on title click
+        jokeTitle.addEventListener('click', () => {
+          jokeContent.classList.toggle('show');
+          jokeButtons.classList.toggle('show');
+        });
+
+        jokeList.appendChild(jokeItem);
+      });
+    }
+
+    // Display jokes when the page loads
+    displayJokes();
+
+    // Snowflakes animation
+    const snowflakesContainer = document.querySelector('.snowflakes');
+    const snowflakeCount = 20;
+
+    for (let i = 0; i < snowflakeCount; i++) {
+      const snowflake = document.createElement('div');
+      snowflake.classList.add('snowflake');
+      snowflake.innerHTML = '❄️';
+      snowflake.style.left = `${Math.random() * 100}%`;
+      snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`;
+      snowflake.style.animationDelay = `${Math.random() * 5}s`;
+      snowflake.style.fontSize = `${Math.random() * 20 + 10}px`;
+      snowflakesContainer.appendChild(snowflake);
+    }
+  </script>
+</body>
+</html>
