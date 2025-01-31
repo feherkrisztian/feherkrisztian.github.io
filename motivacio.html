@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motiváció</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #a8c0ff, #3f2b96);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .container {
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      margin: 20px 0;
+    }
+    .button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      font-size: 18px;
+      color: #fff;
+      background-color: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 25px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .button:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+    .message {
+      font-size: 18px;
+      color: #fff;
+      margin-top: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>MO-TI-VÁLJ!</h1>
+	Krisz ezt gondolja épp: "Könyörgöm írj valami jót hogy Cica megnyugodjon és folytathassuk"
+    <button class="button" onclick="showMessage()">Hajrá</button>
+    <p class="message" id="message"></p>
+  </div>
+
+  <script>
+    const messages = [
+		  "A hegycsúcsra nem lifttel jutsz fel, hanem kemény munkával és kitartással!",
+		  "Ahogy a síelő megtanul egyensúlyozni a havon, úgy tanulhatsz te is egyensúlyt teremteni az életedben!",
+		  "Minden esés egy lépés a siker felé. Ne félj elindulni!",
+		  "A síelés olyan, mint az élet: néha gyors, néha lassú, de mindig élvezd az utat!",
+		  "Ha nem csúszol előre, akkor hátrafelé fogsz csúszni. Mindig törekedj a fejlődésre!",
+		  "Ne a havas pályát figyeld, hanem azt, hogy hová szeretnél eljutni!",
+		  "A legjobb síelők is elestek párszor – a lényeg, hogy mindig állj fel és menj tovább!",
+		  "Nem számít, milyen meredek az út, ha hiszel magadban, mindig lesz egy ösvény a csúcs felé!",
+		  "A hó alatt néha akadályok vannak, de ha kitartasz, eljutsz a célodig!"
+    ];
+
+    function showMessage() {
+      const randomIndex = Math.floor(Math.random() * messages.length);
+      document.getElementById("message").innerText = messages[randomIndex];
+      document.getElementById("message").style.display = "block";
+    }
+  </script>
+</body>
+</html>

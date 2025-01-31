@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vicces Oldal</title>
+  <title>hahahaha</title>
   <style>
-    /* General styles */
     body {
       margin: 0;
       padding: 0;
@@ -17,7 +16,6 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-
     .container {
       text-align: center;
       width: 90%;
@@ -29,114 +27,48 @@
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
       margin: 20px 0;
     }
-
     h1 {
       font-size: 24px;
       color: #fff;
       margin-bottom: 20px;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     }
-
     .welcome-text {
       font-size: 18px;
       color: #fff;
       margin-bottom: 20px;
     }
-
-    .button {
-      display: block;
-      width: 100%;
-      padding: 15px;
-      margin: 10px 0;
+    .button-container {
+      display: none;
+    }
+    .message {
       font-size: 18px;
       color: #fff;
-      background-color: rgba(255, 255, 255, 0.2);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 25px;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .button:hover {
-      background-color: rgba(255, 255, 255, 0.3);
-      transform: translateY(-2px);
-    }
-
-    .button:active {
-      transform: translateY(0);
-    }
-
-    /* Snowflakes animation */
-    .snowflakes {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .snowflake {
-      position: absolute;
-      color: #fff;
-      font-size: 20px;
-      animation: fall linear infinite;
-    }
-
-    @keyframes fall {
-      0% {
-        transform: translateY(-10%);
-      }
-      100% {
-        transform: translateY(110%);
-      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Szia, jó szórakozást</h1>
-    <p class="welcome-text">
-      Remélem kiégsz XD
-    </p>
+    <h1>Szia, jó síelést</h1>
+    <p class="welcome-text">Remélem tetszeni fog, szeretlek <3</p>
   </div>
 
   <div class="container">
-    <a href="sielos_viccek.html" class="button">Síelős viccek quiz</a>
-    <a href="rendes_viccek.html" class="button">Rendes viccek mert már unom a hülye síelős vicceket</a>
-  </div>
-
-  <!-- Snowflakes animation -->
-  <div class="snowflakes">
-    <div class="snowflake">❄️</div>
-    <div class="snowflake">❄️</div>
-    <div class="snowflake">❄️</div>
-    <div class="snowflake">❄️</div>
-    <div class="snowflake">❄️</div>
-    <div class="snowflake">❄️</div>
-    <div class="snowflake">❄️</div>
-    <div class="snowflake">❄️</div>
-    <div class="snowflake">❄️</div>
-    <div class="snowflake">❄️</div>
+    <p class="message" id="message">Hamarosan kiderül miért síel a százlábú...<br>De még az is talán hogy a zsizsi miért...<br>Ráadásul ha úgy érzed "OK, elég volt, menjünk haza Krisztián, nem érdekel", akkor nyisd meg az APP-ot és vár valami!</p>
+    <div class="button-container" id="button-container">
+      <a href="sielos_viccek.html" class="button">Síelős viccek quiz</a>
+      <a href="rendes_viccek.html" class="button">Rendes viccek mert már unom a hülye síelős vicceket</a>
+      <a href="motivacio.html" class="button">Motivációt akarok mert elegem van</a>
+    </div>
   </div>
 
   <script>
-    // Snowflakes animation
-    const snowflakesContainer = document.querySelector('.snowflakes');
-    const snowflakeCount = 20;
+    const releaseDate = new Date("2025-02-01T23:59:59");
+    const now = new Date();
 
-    for (let i = 0; i < snowflakeCount; i++) {
-      const snowflake = document.createElement('div');
-      snowflake.classList.add('snowflake');
-      snowflake.innerHTML = '❄️';
-      snowflake.style.left = `${Math.random() * 100}%`;
-      snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`;
-      snowflake.style.animationDelay = `${Math.random() * 5}s`;
-      snowflake.style.fontSize = `${Math.random() * 20 + 10}px`;
-      snowflakesContainer.appendChild(snowflake);
+    if (now >= releaseDate) {
+      document.getElementById("message").style.display = "none";
+      document.getElementById("button-container").style.display = "block";
     }
   </script>
 </body>
